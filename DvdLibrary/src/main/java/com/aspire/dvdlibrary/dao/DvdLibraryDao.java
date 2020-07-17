@@ -6,6 +6,7 @@
 package com.aspire.dvdlibrary.dao;
 
 import com.aspire.dvdlibrary.dto.Dvd;
+import java.util.SortedMap;
 
 /**
  *
@@ -15,12 +16,12 @@ public interface DvdLibraryDao {
 
     Dvd addDvd(Dvd dvd, String titleId) throws DvdLibraryDaoException;
 
+    SortedMap<String, Dvd> findDvd(String title) throws DvdLibraryDaoException;
+
     Dvd removeDvd() throws DvdLibraryDaoException;
 
     Dvd updateDvd() throws DvdLibraryDaoException;
 
     Dvd getAllDvd() throws DvdLibraryDaoException;
-
-    Dvd findDvd() throws DvdLibraryDaoException;
 
 }

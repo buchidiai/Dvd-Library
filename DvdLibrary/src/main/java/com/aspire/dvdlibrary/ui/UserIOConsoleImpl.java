@@ -21,21 +21,15 @@ public class UserIOConsoleImpl implements UserIO {
         System.out.println(message);
     }
 
+//    @Override
+//    public void print(Class message) {
+//        System.out.println(message);
+//    }
     @Override
     public String readString(String prompt) {
 
-        String response = "";
-
-        try {
-            print(prompt);
-            response = in.nextLine();
-
-            return response;
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-
-        return response;
+        print(prompt);
+        return in.nextLine();
 
     }
 

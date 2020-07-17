@@ -9,10 +9,11 @@ package com.aspire.dvdlibrary.ui;
  *
  * @author louie
  */
-public interface UserIO {
+public interface UserIO<T> {
 
     void print(String message);
 
+//    void print(Class<T> message);
     String readString(String prompt);
 
     int readInt(String prompt);

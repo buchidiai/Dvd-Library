@@ -6,8 +6,9 @@
 package com.aspire.dvdlibrary.dao;
 
 import com.aspire.dvdlibrary.dto.Dvd;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.NavigableMap;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 /**
  *
@@ -15,15 +16,20 @@ import java.util.Map;
  */
 public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
 
-    private Map<String, Dvd> dvdCollection = new HashMap<>();
+    private TreeMap<String, Dvd> dvdCollection = new TreeMap<String, Dvd>();
 
     @Override
     public Dvd addDvd(Dvd dvd, String titleId) throws DvdLibraryDaoException {
-
         // add dvd (id is generated on object instantiation) (key) and dvd object (value) to hashMap
         Dvd dvdToAdd = dvdCollection.put(titleId, dvd);
         //return hashMap
         return dvdToAdd;
+    }
+
+    @Override
+    public SortedMap<String, Dvd> findDvd(String title) throws DvdLibraryDaoException {
+
+        return getByPrefix(dvdCollection, title);
 
     }
 
@@ -42,9 +48,8 @@ public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public Dvd findDvd() throws DvdLibraryDaoException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private static SortedMap<String, Dvd> getByPrefix(NavigableMap<String, Dvd> dvdCollection, String titleToFind) {
+        return dvdCollection.subMap(titleToFind, titleToFind + Character.MAX_VALUE);
     }
 
 }

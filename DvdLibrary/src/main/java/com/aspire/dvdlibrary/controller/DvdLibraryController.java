@@ -9,6 +9,7 @@ import com.aspire.dvdlibrary.dao.DvdLibraryDao;
 import com.aspire.dvdlibrary.dao.DvdLibraryDaoException;
 import com.aspire.dvdlibrary.dto.Dvd;
 import com.aspire.dvdlibrary.ui.DvdLibraryView;
+import java.util.SortedMap;
 
 /**
  *
@@ -37,16 +38,16 @@ public class DvdLibraryController {
                         addDvd();
                         break;
                     case 2:
-                        removeDvd();
+                        findDvdByTitle();
                         break;
                     case 3:
                         editDVD();
                         break;
                     case 4:
-                        listAllDvds();
+                        removeDvd();
                         break;
                     case 5:
-                        findDvdByTitle();
+                        listAllDvds();
                         break;
                     case 6:
                         keepGoing = false;
@@ -59,7 +60,7 @@ public class DvdLibraryController {
             exitMessage();
         } catch (DvdLibraryDaoException e) {
 
-//            view.displayErrorMessage(e.getMessage());
+            view.displayErrorMessage(e.getMessage());
         }
 
     }
@@ -72,8 +73,10 @@ public class DvdLibraryController {
     private void addDvd() throws DvdLibraryDaoException {
         //display add address banner message
         view.displayAddDvdBanner();
+
         //get new address data
         Dvd newDvd = view.getnewDvdInfo();
+
         //make key ~> titleId with title and id
         String titleId = (newDvd.getTitle() + "-" + newDvd.getId());
 
@@ -84,18 +87,32 @@ public class DvdLibraryController {
         view.displayCreateSuccessBanner();
     }
 
+    private void findDvdByTitle() throws DvdLibraryDaoException {
+        //display edit address banner message
+        view.displayFindDvdBanner();
+
+        //get dvd title
+        String title = view.getDvdTitle();
+
+        //find Dvd or dvds by title
+        SortedMap<String, Dvd> dvds = dao.findDvd(title);
+
+        //dispay address if found
+        view.displayFoundDvd(dvds, title);
+    }
+
     private void removeDvd() throws DvdLibraryDaoException {
-//        //display remove address banner message
-//        view.displayRemoveAddressBanner();
-//        //get last name
-//        String lastname = view.getAddressLastNameChoice();
+//       //display remove dvd banner message
+//        view.displayRemoveDvdBanner();
 //
-//        //find address by last name
-//        Address address = dao.getAddressByLastName(lastname);
+//        //get dvd title
+//        String title = view.getDvdTitle();
+//
+//        //find dvd by title
+//        Dvd address = dao.findDvd(title);
 //
 //        //ask to confirm delete
 //        boolean toDelete = view.askToDelete(address);
-//
 //        //if yes
 //        if (toDelete) {
 //            //remove address from hashMap by key ~> (lastname)
@@ -128,30 +145,6 @@ public class DvdLibraryController {
 //        int numOfAddresses = dao.getCountOfAddresses();
 //        //dispay count
 //        view.displayCountOfAddresses(numOfAddresses);
-    }
-
-    private void findDvdByTitle() throws DvdLibraryDaoException {
-//        //display edit address banner message
-//        view.displayEditAddressBanner();
-//        //get last name
-//        String lastname = view.getAddressLastNameChoice();
-//        //find address by last name
-//        Address address = dao.getAddressByLastName(lastname);
-//
-//        //dispay address if found
-//        view.displayFoundAddress(address, "Press 1 to go to Continue Editing.");
-//
-//        if (address != null) {
-//            //get new address data
-//            Address newAddress = view.updateAddressinfo();
-//            //set last name entered
-//            newAddress.setLastName(lastname);
-//            //add address to hashMap key ~> (lastname) value ~> Address object
-//            dao.addAddress(newAddress.getLastName(), newAddress);
-//
-//            view.displayEditSuccessMessage();
-//
-//        }
     }
 
     private void unknownCommand() {

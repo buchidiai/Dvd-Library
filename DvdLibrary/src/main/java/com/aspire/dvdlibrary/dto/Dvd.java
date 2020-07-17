@@ -5,6 +5,8 @@
  */
 package com.aspire.dvdlibrary.dto;
 
+import com.aspire.dvdlibrary.dao.DvdLibraryDaoException;
+
 /**
  *
  * @author louie
@@ -41,7 +43,18 @@ public class Dvd {
         return releaseDate;
     }
 
-    public void setReleaseDate(String releaseDate) {
+    public void setReleaseDate(String releaseDate) throws DvdLibraryDaoException {
+//        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+//        int releaseYear = Integer.parseInt(releaseDate);
+//
+//        System.out.println("releaseYear" + releaseYear);
+//        System.out.println("currentYear" + currentYear);
+//
+//        if (!(releaseYear >= 0 && releaseYear <= currentYear)) {
+//
+//            throw new DvdLibraryDaoException("Must be a valid year");
+//        }
+
         this.releaseDate = releaseDate;
     }
 
@@ -75,6 +88,12 @@ public class Dvd {
 
     public void setUserRating(String userRating) {
         this.userRating = userRating;
+    }
+
+    @Override
+    public String toString() {
+
+        return ("Title: " + title + '\n' + "Release Date: " + releaseDate + '\n' + "Mpaa-Rating: " + mpaaRating + '\n' + "Director's Name: " + directorName + '\n' + "Studio: " + studio + '\n' + "User-Rating: " + userRating);
     }
 
 }
