@@ -15,11 +15,16 @@ import java.util.Map;
  */
 public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
 
-    private Map<String, Dvd> addresses = new HashMap<>();
+    private Map<String, Dvd> dvdCollection = new HashMap<>();
 
     @Override
-    public Dvd addDvd() throws DvdLibraryDaoException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Dvd addDvd(Dvd dvd, String titleId) throws DvdLibraryDaoException {
+
+        // add dvd (id is generated on object instantiation) (key) and dvd object (value) to hashMap
+        Dvd dvdToAdd = dvdCollection.put(titleId, dvd);
+        //return hashMap
+        return dvdToAdd;
+
     }
 
     @Override

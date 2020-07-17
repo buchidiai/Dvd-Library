@@ -5,6 +5,8 @@
  */
 package com.aspire.dvdlibrary.ui;
 
+import com.aspire.dvdlibrary.dto.Dvd;
+
 /**
  *
  * @author louie
@@ -29,6 +31,29 @@ public class DvdLibraryView {
         return io.readInt("Please select from the above choices.", 1, 6);
     }
 
+    public Dvd getnewDvdInfo() {
+        //get address info
+        String title = io.readString("Please Enter Dvd title:");
+        String releaseDate = io.readString("Please Enter Dvd relase date:");
+        String MpaaRating = io.readString("Please Enter it's Mpaa Rating: (G, PG, PG-13, R, or NC-17)");
+        String DirectorName = io.readString("Please Enter Director's name:");
+        String Studio = io.readString("Please Enter Studio's name:");
+        String userRating = io.readString("Please Enter User rating:");
+
+        //create new instance of dvd
+        Dvd newDvd = new Dvd();
+
+        //set values for address
+        newDvd.setTitle(title);
+        newDvd.setReleaseDate(releaseDate);
+        newDvd.setMpaaRating(MpaaRating);
+        newDvd.setDirectorName(DirectorName);
+        newDvd.setStudio(Studio);
+        newDvd.setUserRating(userRating);
+
+        return newDvd;
+    }
+
     public void displayAddDvdBanner() {
         io.print("=== Add a Dvd ===");
     }
@@ -38,7 +63,7 @@ public class DvdLibraryView {
     }
 
     public void displayCreateSuccessBanner() {
-        io.readString("Dvd successfully created.  Press 1 to go to Main Menu.");
+        io.readString("Dvd successfully added.  Press 1 to go to Main Menu.");
     }
 
     public void displayRemoveDvdBanner() {

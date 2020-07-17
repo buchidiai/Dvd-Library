@@ -7,6 +7,7 @@ package com.aspire.dvdlibrary.controller;
 
 import com.aspire.dvdlibrary.dao.DvdLibraryDao;
 import com.aspire.dvdlibrary.dao.DvdLibraryDaoException;
+import com.aspire.dvdlibrary.dto.Dvd;
 import com.aspire.dvdlibrary.ui.DvdLibraryView;
 
 /**
@@ -69,14 +70,18 @@ public class DvdLibraryController {
     }
 
     private void addDvd() throws DvdLibraryDaoException {
-//        //display add address banner message
-//        view.displayAddAddressBanner();
-//        //get new address data
-//        Address newAddress = view.getnewaddressInfo();
-//        //add address to hashMap key ~> (lastname) value ~> Address object
-//        dao.addAddress(newAddress.getLastName(), newAddress);
-//        //display Success
-//        view.displayCreateSuccessBanner();
+        //display add address banner message
+        view.displayAddDvdBanner();
+        //get new address data
+        Dvd newDvd = view.getnewDvdInfo();
+        //make key ~> titleId with title and id
+        String titleId = (newDvd.getTitle() + "-" + newDvd.getId());
+
+        //add dvd to hashMap key ~> (titleId) value ~> Dvd object
+        dao.addDvd(newDvd, titleId);
+
+        //display Success
+        view.displayCreateSuccessBanner();
     }
 
     private void removeDvd() throws DvdLibraryDaoException {

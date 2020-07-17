@@ -13,7 +13,7 @@ import com.aspire.dvdlibrary.dto.Dvd;
  */
 public interface DvdLibraryDao {
 
-    Dvd addDvd() throws DvdLibraryDaoException;
+    Dvd addDvd(Dvd dvd, String titleId) throws DvdLibraryDaoException;
 
     Dvd removeDvd() throws DvdLibraryDaoException;
 

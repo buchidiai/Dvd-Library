@@ -30,7 +30,7 @@ public class App {
 
         DvdLibraryController controller = new DvdLibraryController(myView, myDao);
         //Call the run method on the controller to kick things off.
-//        controller.run();
+        controller.run();
     }
 
 }
