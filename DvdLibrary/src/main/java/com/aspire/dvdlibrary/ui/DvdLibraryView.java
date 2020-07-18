@@ -64,16 +64,16 @@ public class DvdLibraryView {
 
     }
 
-    public String getDvdToBeDeleted(Map<String, Dvd> dvds, String dvdTitle) {
+    public String getUserDvdChoice(Map<String, Dvd> dvds, String dvdTitle) {
 
         int collectionSize = dvds.size();
-        String dvdToDelete = "";
+        String keyForDvd = "";
 
         displayMatchingDvds(dvdTitle);
 
         if (!(dvds.isEmpty())) {
 
-            dvdToDelete = getDvdToDeleted(dvds, collectionSize);
+            keyForDvd = askUserForDvdChoice(dvds, collectionSize);
 
         } else {
             io.print("No such Dvd found.");
@@ -81,14 +81,14 @@ public class DvdLibraryView {
             io.readString("Press Enter to go to Main Menu.");
         }
 
-        return dvdToDelete;
+        return keyForDvd;
 
     }
 
-    public String getDvdToDeleted(Map<String, Dvd> dvds, int collectionSize) {
+    public String askUserForDvdChoice(Map<String, Dvd> dvds, int collectionSize) {
 
         int index = 0;
-        int movieIndexToDelete = 0;
+        int indexChoice = 0;
         String[] keys = new String[collectionSize];
 
         String amountMovies = "";
@@ -108,16 +108,15 @@ public class DvdLibraryView {
 
                 io.print(collectionSize + amountMovies + " found.");
 
-                //
-                movieIndexToDelete = getIndexOfDvdToDelete(1, collectionSize);
+                indexChoice = getIndexOfDvdChoice(1, collectionSize);
 
-                return keys[collectionSize == 1 ? movieIndexToDelete - 1 : movieIndexToDelete];
+                return keys[collectionSize == 1 ? indexChoice - 1 : indexChoice];
             }
 
             index++;
         }
 
-        return keys[movieIndexToDelete];
+        return keys[indexChoice];
     }
 
     public void displayFoundDvd(Map<String, Dvd> dvds, String dvdTitle) {
@@ -158,12 +157,16 @@ public class DvdLibraryView {
         index = 1;
     }
 
-    public int getIndexOfDvdToDelete(int startIndex, int endIndex) {
-        return io.readInt("Please enter a Dvd number from to delete.", startIndex, endIndex);
+    public int getIndexOfDvdChoice(int startIndex, int endIndex) {
+        return io.readInt("Please enter a Dvd number from above list.", startIndex, endIndex);
+    }
+
+    public void displayEditDvdEnterNewInfo() {
+        io.print("Enter Info to be Updated");
     }
 
     public void displayAllDvds(Collection<Dvd> dvds) {
-
+        io.print("");
         int count = 0;
         for (Dvd i : dvds) {
             io.print(i.toString());
@@ -186,7 +189,7 @@ public class DvdLibraryView {
     }
 
     public void displayDvdIndexIncremented(int index) {
-        io.print("=== Dvd number " + (index + 1) + " ===");
+        io.print("=== Dvd number (" + (index + 1) + ") ===");
     }
 
     public String getDvdTitle() {

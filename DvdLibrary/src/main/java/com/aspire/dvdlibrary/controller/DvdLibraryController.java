@@ -113,26 +113,44 @@ public class DvdLibraryController {
         Map<String, Dvd> dvds = dao.findDvd(title);
 
         //ask user to select dvd to delete if matching
-        String dvdToDelete = view.getDvdToBeDeleted(dvds, title);
+        String dvdToDelete = view.getUserDvdChoice(dvds, title);
 
         Dvd deletedDvd = dao.removeDvd(dvdToDelete);
 
         if (deletedDvd != null) {
             view.displayRemoveSuccessBanner();
-
         }
 
     }
 
     private void editDVD() throws DvdLibraryDaoException {
-//        //display find address banner message
-//        view.displayFindAddressBanner();
-//        //get last name
-//        String lastname = view.getAddressLastNameChoice();
-//        //find address by last name
-//        Address address = dao.getAddressByLastName(lastname);
-//        //dispay address if found
-//        view.displayFoundAddress(address);
+        //display find address banner message
+        view.displayEditDvdBanner();
+
+        //get dvd title
+        String title = view.getDvdTitle();
+
+        //find dvd by title
+        Map<String, Dvd> dvds = dao.findDvd(title);
+
+        //ask user to select dvd to edit if matching
+        String dvdToUpdate = view.getUserDvdChoice(dvds, title);
+
+        //display enter new info
+        view.displayEditDvdEnterNewInfo();
+
+        //get new dvd data
+        Dvd newDvd = view.getnewDvdInfo();
+
+        //make key ~> titleId with title and id
+        String titleId = (newDvd.getTitle() + "-" + newDvd.getId());
+
+        //add dvd to hashMap key ~> (titleId) value ~> Dvd object
+        dao.updateDvd(newDvd, titleId);
+
+        Dvd deletedDvd = dao.removeDvd(dvdToUpdate);
+
+        view.displayEditSuccessMessage();
     }
 
     private void listAllDvds() throws DvdLibraryDaoException {

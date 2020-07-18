@@ -31,11 +31,10 @@ public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
         Map<String, Dvd> foundDvd = new HashMap<>();
         for (Map.Entry<String, Dvd> e : dvdCollection.entrySet()) {
 
-            if (e.getKey().startsWith(title)) {
+            if (e.getKey().startsWith(title) || e.getKey().endsWith(title)) {
                 foundDvd.put(e.getKey(), e.getValue());
             }
         }
-
         return foundDvd;
     }
 
@@ -46,8 +45,11 @@ public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
     }
 
     @Override
-    public Dvd updateDvd() throws DvdLibraryDaoException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Dvd updateDvd(Dvd dvd, String titleId) throws DvdLibraryDaoException {
+        // add dvd (id is generated on object instantiation) (key) and dvd object (value) to hashMap
+        Dvd dvdToAdd = dvdCollection.put(titleId, dvd);
+        //return hashMap
+        return dvdToAdd;
     }
 
     @Override

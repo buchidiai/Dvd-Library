@@ -21,7 +21,7 @@ public interface DvdLibraryDao {
 
     Dvd removeDvd(String title) throws DvdLibraryDaoException;
 
-    Dvd updateDvd() throws DvdLibraryDaoException;
+    Dvd updateDvd(Dvd dvd, String titleId) throws DvdLibraryDaoException;
 
     Collection<Dvd> getAllDvd() throws DvdLibraryDaoException;
 
