@@ -7,7 +7,8 @@ package com.aspire.dvdlibrary.ui;
 
 import com.aspire.dvdlibrary.dao.DvdLibraryDaoException;
 import com.aspire.dvdlibrary.dto.Dvd;
-import java.util.SortedMap;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  *
@@ -63,11 +64,70 @@ public class DvdLibraryView {
 
     }
 
-    public void displayFoundDvd(SortedMap<String, Dvd> dvds, String dvdTitle) {
+    public String getDvdToBeDeleted(Map<String, Dvd> dvds, String dvdTitle) {
+
+        int collectionSize = dvds.size();
+        String dvdToDelete = "";
+
+        displayMatchingDvds(dvdTitle);
+
+        if (!(dvds.isEmpty())) {
+
+            dvdToDelete = getDvdToDeleted(dvds, collectionSize);
+
+        } else {
+            io.print("No such Dvd found.");
+
+            io.readString("Press Enter to go to Main Menu.");
+        }
+
+        return dvdToDelete;
+
+    }
+
+    public String getDvdToDeleted(Map<String, Dvd> dvds, int collectionSize) {
+
+        int index = 0;
+        int movieIndexToDelete = 0;
+        String[] keys = new String[collectionSize];
+
+        String amountMovies = "";
+
+        io.print("");
+
+        for (Map.Entry<String, Dvd> e : dvds.entrySet()) {
+            displayDvdIndexIncremented(index);
+            displayCurrentDvd(e.getValue());
+            keys[index] = e.getKey();
+
+            io.print("");
+
+            if ((index + 1) == (collectionSize)) {
+
+                amountMovies = index == 1 ? " movie" : " movies";
+
+                io.print(collectionSize + amountMovies + " found.");
+
+                //
+                movieIndexToDelete = getIndexOfDvdToDelete(1, collectionSize);
+
+                return keys[collectionSize == 1 ? movieIndexToDelete - 1 : movieIndexToDelete];
+            }
+
+            index++;
+        }
+
+        return keys[movieIndexToDelete];
+    }
+
+    public void displayFoundDvd(Map<String, Dvd> dvds, String dvdTitle) {
+
+        int collectionSize = dvds.size();
 
         displayMatchingDvds(dvdTitle);
         if (!(dvds.isEmpty())) {
-            viewDvdInfo(dvds);
+
+            viewDvdInfo(dvds, collectionSize);
         } else {
             io.print("No such Dvd found.");
 
@@ -76,35 +136,65 @@ public class DvdLibraryView {
 
     }
 
-    public void viewDvdInfo(SortedMap<String, Dvd> dvds) {
+    public void viewDvdInfo(Map<String, Dvd> dvds, int collectionSize) {
         int index = 1;
 
+        String amountMovies = "";
+
         io.print("");
-        for (Dvd i : dvds.values()) {
+
+        for (Map.Entry<String, Dvd> e : dvds.entrySet()) {
             displayDvdIndex(index);
-            displayCurrentDvd(i);
+            displayCurrentDvd(e.getValue());
             io.print("");
             index++;
-
         }
+        amountMovies = index == 1 ? " movie" : " movies";
+
+        io.print(collectionSize + amountMovies + " found.");
 
         io.readString("Press Enter to go to Main Menu.");
+
+        index = 1;
+    }
+
+    public int getIndexOfDvdToDelete(int startIndex, int endIndex) {
+        return io.readInt("Please enter a Dvd number from to delete.", startIndex, endIndex);
+    }
+
+    public void displayAllDvds(Collection<Dvd> dvds) {
+
+        int count = 0;
+        for (Dvd i : dvds) {
+            io.print(i.toString());
+            io.print("");
+            count++;
+        }
+
+        displayCountOfDvds(count);
+        io.print("");
+
     }
 
     public void displayCurrentDvd(Dvd dvd) {
+
         System.out.println(dvd);
     }
 
     public void displayDvdIndex(int index) {
-        io.print("=== Dvd number " + index + " ===");
+        io.print("=== Dvd number " + (index) + " ===");
+    }
+
+    public void displayDvdIndexIncremented(int index) {
+        io.print("=== Dvd number " + (index + 1) + " ===");
     }
 
     public String getDvdTitle() {
         return io.readString("Please enter Dvd title.");
     }
 
-    public void displayMatchingDvds(String dvdName) {
-        io.print("=== Search Results for " + dvdName + " ===");
+    public void displayMatchingDvds(String dvdTitle) {
+        io.print("=== Search Results for " + dvdTitle + " ===");
     }
 
     public void displayAddDvdBanner() {
@@ -117,6 +207,10 @@ public class DvdLibraryView {
 
     public void displayCreateSuccessBanner() {
         io.readString("Dvd successfully added.  Press Enter to go to Main Menu.");
+    }
+
+    public void displayRemoveSuccessBanner() {
+        io.readString("Dvd successfully removed.  Press Enter to go to Main Menu.");
     }
 
     public void displayRemoveDvdBanner() {

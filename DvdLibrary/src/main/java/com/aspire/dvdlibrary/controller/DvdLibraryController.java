@@ -9,7 +9,8 @@ import com.aspire.dvdlibrary.dao.DvdLibraryDao;
 import com.aspire.dvdlibrary.dao.DvdLibraryDaoException;
 import com.aspire.dvdlibrary.dto.Dvd;
 import com.aspire.dvdlibrary.ui.DvdLibraryView;
-import java.util.SortedMap;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  *
@@ -95,36 +96,32 @@ public class DvdLibraryController {
         String title = view.getDvdTitle();
 
         //find Dvd or dvds by title
-        SortedMap<String, Dvd> dvds = dao.findDvd(title);
+        Map<String, Dvd> dvds = dao.findDvd(title);
 
-        //dispay address if found
+        //dispay dvd if found
         view.displayFoundDvd(dvds, title);
     }
 
     private void removeDvd() throws DvdLibraryDaoException {
-//       //display remove dvd banner message
-//        view.displayRemoveDvdBanner();
-//
-//        //get dvd title
-//        String title = view.getDvdTitle();
-//
-//        //find dvd by title
-//        Dvd address = dao.findDvd(title);
-//
-//        //ask to confirm delete
-//        boolean toDelete = view.askToDelete(address);
-//        //if yes
-//        if (toDelete) {
-//            //remove address from hashMap by key ~> (lastname)
-//            Address removedAddress = dao.removeAddress(lastname);
-//
-//            // check if address was sucessfully deleted then display message
-//            view.displayRemoveResult(removedAddress);
-//        } else {
-//            address = null;
-//            view.displayRemoveResult(address);
-//
-//        }
+        //display remove dvd banner message
+        view.displayRemoveDvdBanner();
+
+        //get dvd title
+        String title = view.getDvdTitle();
+
+        //find dvd by title
+        Map<String, Dvd> dvds = dao.findDvd(title);
+
+        //ask user to select dvd to delete if matching
+        String dvdToDelete = view.getDvdToBeDeleted(dvds, title);
+
+        Dvd deletedDvd = dao.removeDvd(dvdToDelete);
+
+        if (deletedDvd != null) {
+            view.displayRemoveSuccessBanner();
+
+        }
+
     }
 
     private void editDVD() throws DvdLibraryDaoException {
@@ -139,12 +136,13 @@ public class DvdLibraryController {
     }
 
     private void listAllDvds() throws DvdLibraryDaoException {
-//        //display list count address banner message
-//        view.displayCountOfAddressBanner();
-//        //get num of addresses
-//        int numOfAddresses = dao.getCountOfAddresses();
-//        //dispay count
-//        view.displayCountOfAddresses(numOfAddresses);
+        //display list count address banner message
+        view.displayListAllDvdBanner();
+
+        //get num of addresses
+        Collection<Dvd> allDvds = dao.getAllDvd();
+        //dispay count
+        view.displayAllDvds(allDvds);
     }
 
     private void unknownCommand() {

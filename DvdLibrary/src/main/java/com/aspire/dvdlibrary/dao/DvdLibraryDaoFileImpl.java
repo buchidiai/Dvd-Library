@@ -6,9 +6,9 @@
 package com.aspire.dvdlibrary.dao;
 
 import com.aspire.dvdlibrary.dto.Dvd;
-import java.util.NavigableMap;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -16,7 +16,7 @@ import java.util.TreeMap;
  */
 public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
 
-    private TreeMap<String, Dvd> dvdCollection = new TreeMap<String, Dvd>();
+    private Map<String, Dvd> dvdCollection = new HashMap<String, Dvd>();
 
     @Override
     public Dvd addDvd(Dvd dvd, String titleId) throws DvdLibraryDaoException {
@@ -27,15 +27,22 @@ public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
     }
 
     @Override
-    public SortedMap<String, Dvd> findDvd(String title) throws DvdLibraryDaoException {
+    public Map<String, Dvd> findDvd(String title) throws DvdLibraryDaoException {
+        Map<String, Dvd> foundDvd = new HashMap<>();
+        for (Map.Entry<String, Dvd> e : dvdCollection.entrySet()) {
 
-        return getByPrefix(dvdCollection, title);
+            if (e.getKey().startsWith(title)) {
+                foundDvd.put(e.getKey(), e.getValue());
+            }
+        }
 
+        return foundDvd;
     }
 
     @Override
-    public Dvd removeDvd() throws DvdLibraryDaoException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Dvd removeDvd(String dvdKey) throws DvdLibraryDaoException {
+
+        return dvdCollection.remove(dvdKey);
     }
 
     @Override
@@ -44,12 +51,8 @@ public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
     }
 
     @Override
-    public Dvd getAllDvd() throws DvdLibraryDaoException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private static SortedMap<String, Dvd> getByPrefix(NavigableMap<String, Dvd> dvdCollection, String titleToFind) {
-        return dvdCollection.subMap(titleToFind, titleToFind + Character.MAX_VALUE);
+    public Collection<Dvd> getAllDvd() throws DvdLibraryDaoException {
+        return dvdCollection.values();
     }
 
 }

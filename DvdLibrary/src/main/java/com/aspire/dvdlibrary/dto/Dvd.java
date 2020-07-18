@@ -14,7 +14,7 @@ import com.aspire.dvdlibrary.dao.DvdLibraryDaoException;
 public class Dvd {
 
     private int id;
-    private static int idCounter = 0;
+    private static int idCounter = 1;
 
     private String title;
     private String releaseDate;
