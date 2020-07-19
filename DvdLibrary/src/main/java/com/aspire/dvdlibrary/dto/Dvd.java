@@ -5,7 +5,7 @@
  */
 package com.aspire.dvdlibrary.dto;
 
-import com.aspire.dvdlibrary.dao.DvdLibraryDaoException;
+import com.aspire.dvdlibrary.util.Util;
 
 /**
  *
@@ -17,7 +17,7 @@ public class Dvd {
     private static int idCounter = 1;
 
     private String title;
-    private String releaseDate;
+    private int releaseDate;
     private String mpaaRating;
     private String directorName;
     private String studio;
@@ -36,24 +36,15 @@ public class Dvd {
     }
 
     public void setTitle(String title) {
-        this.title = title;
+
+        this.title = Util.capitalizeEachWord(title);
     }
 
-    public String getReleaseDate() {
+    public int getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(String releaseDate) throws DvdLibraryDaoException {
-//        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-//        int releaseYear = Integer.parseInt(releaseDate);
-//
-//        System.out.println("releaseYear" + releaseYear);
-//        System.out.println("currentYear" + currentYear);
-//
-//        if (!(releaseYear >= 0 && releaseYear <= currentYear)) {
-//
-//            throw new DvdLibraryDaoException("Must be a valid year");
-//        }
+    public void setReleaseDate(int releaseDate) {
 
         this.releaseDate = releaseDate;
     }
@@ -63,7 +54,19 @@ public class Dvd {
     }
 
     public void setMpaaRating(String mpaaRating) {
-        this.mpaaRating = mpaaRating;
+
+        if (mpaaRating.isEmpty()) {
+
+            mpaaRating = null;
+        } else {
+
+            if (mpaaRating.length() == 4) {
+                mpaaRating = mpaaRating.substring(0, 2) + "-" + mpaaRating.substring(2);
+            }
+
+            this.mpaaRating = mpaaRating.toUpperCase();
+        }
+
     }
 
     public String getDirectorName() {
@@ -71,7 +74,14 @@ public class Dvd {
     }
 
     public void setDirectorName(String directorName) {
-        this.directorName = directorName;
+
+        if (directorName.isEmpty()) {
+
+            directorName = null;
+        } else {
+            this.directorName = Util.capitalizeEachWord(directorName);
+        }
+
     }
 
     public String getStudio() {
@@ -79,7 +89,14 @@ public class Dvd {
     }
 
     public void setStudio(String studio) {
-        this.studio = studio;
+
+        if (studio.isEmpty()) {
+
+            studio = null;
+        } else {
+            this.studio = Util.capitalizeEachWord(studio);
+        }
+
     }
 
     public String getUserRating() {
@@ -87,7 +104,14 @@ public class Dvd {
     }
 
     public void setUserRating(String userRating) {
-        this.userRating = userRating;
+
+        if (userRating.isEmpty()) {
+
+            this.userRating = null;
+        } else {
+            this.userRating = Util.capitalizeEachWord(userRating);
+        }
+
     }
 
     @Override

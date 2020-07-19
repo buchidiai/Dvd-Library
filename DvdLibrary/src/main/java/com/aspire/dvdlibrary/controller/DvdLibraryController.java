@@ -164,11 +164,11 @@ public class DvdLibraryController {
     }
 
     private void unknownCommand() {
-//        view.displayUnknownCommandBanner();
+        view.displayUnknownCommandBanner();
     }
 
     private void exitMessage() {
-//        view.displayExitBanner();
+        view.displayExitBanner();
     }
 
 }

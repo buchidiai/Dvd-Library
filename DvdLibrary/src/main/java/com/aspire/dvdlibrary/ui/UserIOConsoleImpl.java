@@ -28,7 +28,7 @@ public class UserIOConsoleImpl implements UserIO {
     @Override
     public String readString(String prompt) {
 
-        print(prompt);
+        this.print(prompt);
         return in.nextLine();
 
     }
@@ -43,13 +43,14 @@ public class UserIOConsoleImpl implements UserIO {
 
             try {
 
-                print(prompt);
-                response = Integer.parseInt(in.nextLine());
+                String stringValue = this.readString(prompt);
+                response = Integer.parseInt(stringValue);
 
-                return response;
+                valid = false;
 
             } catch (Exception e) {
-                System.out.println("Must be a number " + e.getMessage());
+
+                this.print("Value must be a number");
 
             }
 
@@ -62,24 +63,21 @@ public class UserIOConsoleImpl implements UserIO {
     @Override
     public int readInt(String prompt, int min, int max) {
 
-        int response = 0;
-        boolean valid = true;
+        int result = 0;
 
-        while (valid) {
+        try {
 
-            print(prompt + " (" + min + "-" + max + ")");
-            response = Integer.parseInt(in.nextLine());
+            do {
+                result = readInt(prompt + " (" + min + "-" + max + ")");
+            } while (result < min || result > max);
 
-            if (!(response >= min && response <= max)) {
-                System.out.println("Must be between " + "(" + min + "-" + max + ")");
-                continue;
-            }
+        } catch (Exception e) {
 
-            return response;
+            this.print("Value must be a numberdsd");
 
         }
 
-        return response;
+        return result;
     }
 
     @Override

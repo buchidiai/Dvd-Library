@@ -5,8 +5,9 @@
  */
 package com.aspire.dvdlibrary.ui;
 
-import com.aspire.dvdlibrary.dao.DvdLibraryDaoException;
 import com.aspire.dvdlibrary.dto.Dvd;
+import com.aspire.dvdlibrary.ui.DvdLibraryView.MpaaValues;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Map;
 
@@ -17,6 +18,21 @@ import java.util.Map;
 public class DvdLibraryView {
 
     private UserIO io;
+
+    enum MpaaValues {
+        G, PG, PG13, R, NC17, M, X;
+
+        public static boolean contains(String s) {
+            for (MpaaValues choice : values()) {
+
+                if (choice.name().equals(s)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+    }
 
     public DvdLibraryView(UserIO io) {
         this.io = io;
@@ -34,31 +50,58 @@ public class DvdLibraryView {
         return io.readInt("Please select from the above choices.", 1, 6);
     }
 
-    public Dvd getnewDvdInfo() throws DvdLibraryDaoException {
+    public Dvd getnewDvdInfo() {
+
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+
+        boolean validRating = false;
+        boolean validTitle = false;
         //set instance of dvd
         Dvd newDvd = new Dvd();
-        try {
+
+        String MpaaRating = "";
+        String title = "";
+
+        while (!validTitle) {
             //get address info
-            String title = io.readString("Please Enter Dvd title:");
-            String releaseDate = io.readString("Please Enter Dvd relase date:");
-            String MpaaRating = io.readString("Please Enter it's Mpaa Rating: (G, PG, PG-13, R, or NC-17)");
-            String DirectorName = io.readString("Please Enter Director's name:");
-            String Studio = io.readString("Please Enter Studio's name:");
-            String userRating = io.readString("Please Enter User rating:");
+            title = io.readString("Please Enter Dvd title:");
+            //check if empty
+            if (title.isEmpty()) {
+                io.print("Title can not be empty");
+                continue;
+            }
+            validTitle = true;
+        }
 
-            //set values for address
-            newDvd.setTitle(title);
-            newDvd.setReleaseDate(releaseDate);
-            newDvd.setMpaaRating(MpaaRating);
-            newDvd.setDirectorName(DirectorName);
-            newDvd.setStudio(Studio);
-            newDvd.setUserRating(userRating);
+        //validate date
+        int releaseDate = io.readInt("Please Enter Dvd relase date: ", 1888, currentYear);
 
-            return newDvd;
+        //make sure user puts a valid rating
+        while (!validRating) {
+            //get rating make sure it part of enum
+            MpaaRating = io.readString("Please Enter it's Mpaa Rating: (G, PG, PG13, R, M, X or NC17)");
 
-        } catch (DvdLibraryDaoException e) {
+            if (!(MpaaValues.contains(MpaaRating.toUpperCase()))) {
+                io.print("Must be a valid rating");
+                continue;
+
+            }
+
+            validRating = true;
 
         }
+
+        String DirectorName = io.readString("Please Enter Director's name:");
+        String Studio = io.readString("Please Enter Studio's name:");
+        String userRating = io.readString("Please Enter User rating:");
+
+        //set values for address
+        newDvd.setTitle(title);
+        newDvd.setReleaseDate(releaseDate);
+        newDvd.setMpaaRating(MpaaRating);
+        newDvd.setDirectorName(DirectorName);
+        newDvd.setStudio(Studio);
+        newDvd.setUserRating(userRating);
 
         return newDvd;
 
