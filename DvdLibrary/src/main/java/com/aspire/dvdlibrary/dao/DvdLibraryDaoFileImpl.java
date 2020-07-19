@@ -19,9 +19,10 @@ public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
     private Map<String, Dvd> dvdCollection = new HashMap<String, Dvd>();
 
     @Override
-    public Dvd addDvd(Dvd dvd, String titleId) throws DvdLibraryDaoException {
-        // add dvd (titleId is generated on object instantiation : name + id) (key) and dvd object (value) to hashMap
-        Dvd dvdToAdd = dvdCollection.put(titleId, dvd);
+    public Dvd addDvd(Dvd dvd, String key) throws DvdLibraryDaoException {
+
+        // add dvd (titleId is generated on object instantiation : name) (key) and dvd object (value) to hashMap
+        Dvd dvdToAdd = dvdCollection.put(key, dvd);
         //return hashMap
         return dvdToAdd;
     }
@@ -29,15 +30,17 @@ public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
     @Override
     public Map<String, Dvd> findDvd(String title) throws DvdLibraryDaoException {
         Map<String, Dvd> foundDvd = new HashMap<>();
+
         //loop through collection and check if it ends with or starts with value
         for (Map.Entry<String, Dvd> e : dvdCollection.entrySet()) {
-
-            if (e.getKey().startsWith(title) || e.getKey().endsWith(title)) {
+            if (e.getKey().matches("(.*)" + title + "(.*)")) {
                 foundDvd.put(e.getKey(), e.getValue());
             }
         }
+
         //return map of values
         return foundDvd;
+
     }
 
     @Override

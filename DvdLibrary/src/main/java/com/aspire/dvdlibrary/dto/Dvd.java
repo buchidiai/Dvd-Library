@@ -14,7 +14,7 @@ import com.aspire.dvdlibrary.util.Util;
 public class Dvd {
 
     private int id;
-    private static int idCounter = 1;
+    private static int idCounter = 100;
 
     private String title;
     private int releaseDate;
@@ -28,6 +28,7 @@ public class Dvd {
     }
 
     public int getId() {
+
         return this.id;
     }
 

@@ -43,7 +43,7 @@ public class DvdLibraryView {
         io.print("1. Add Dvd");
         io.print("2. Find Dvd by Title");
         io.print("3. Edit Dvd");
-        io.print("4. Delete Dvd");
+        io.print("4. Remove Dvd");
         io.print("5. List All Dvds");
         io.print("6. Exit");
 
@@ -56,8 +56,6 @@ public class DvdLibraryView {
 
         boolean validRating = false;
         boolean validTitle = false;
-        //set instance of dvd
-        Dvd newDvd = new Dvd();
 
         String MpaaRating = "";
         String title = "";
@@ -95,6 +93,8 @@ public class DvdLibraryView {
         String Studio = io.readString("Please Enter Studio's name:");
         String userRating = io.readString("Please Enter User rating:");
 
+        //set instance of dvd
+        Dvd newDvd = new Dvd();
         //set values for address
         newDvd.setTitle(title);
         newDvd.setReleaseDate(releaseDate);
@@ -132,6 +132,7 @@ public class DvdLibraryView {
 
         int index = 0;
         int indexChoice = 0;
+        String choice = "";
         String[] keys = new String[collectionSize];
 
         String amountMovies = "";
@@ -153,7 +154,9 @@ public class DvdLibraryView {
 
                 indexChoice = getIndexOfDvdChoice(1, collectionSize);
 
-                return keys[collectionSize == 1 ? indexChoice - 1 : indexChoice];
+                choice = keys[indexChoice - 1];
+
+                return choice;
             }
 
             index++;
@@ -236,7 +239,23 @@ public class DvdLibraryView {
     }
 
     public String getDvdTitle() {
-        return io.readString("Please enter Dvd title.");
+
+        boolean isValid = true;
+        String title = "";
+
+        while (isValid) {
+
+            title = io.readString("Please enter Dvd title.");
+
+            if (title.isEmpty()) {
+                continue;
+            }
+
+            isValid = false;
+
+        }
+
+        return title;
     }
 
     public void displayMatchingDvds(String dvdTitle) {

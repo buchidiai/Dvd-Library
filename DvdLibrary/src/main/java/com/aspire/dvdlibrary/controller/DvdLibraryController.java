@@ -9,6 +9,7 @@ import com.aspire.dvdlibrary.dao.DvdLibraryDao;
 import com.aspire.dvdlibrary.dao.DvdLibraryDaoException;
 import com.aspire.dvdlibrary.dto.Dvd;
 import com.aspire.dvdlibrary.ui.DvdLibraryView;
+import com.aspire.dvdlibrary.util.Util;
 import java.util.Collection;
 import java.util.Map;
 
@@ -93,7 +94,7 @@ public class DvdLibraryController {
         view.displayFindDvdBanner();
 
         //get dvd title
-        String title = view.getDvdTitle();
+        String title = Util.capitalizeEachWord(view.getDvdTitle());
 
         //find Dvd or dvds by title
         Map<String, Dvd> dvds = dao.findDvd(title);
@@ -107,7 +108,7 @@ public class DvdLibraryController {
         view.displayRemoveDvdBanner();
 
         //get dvd title
-        String title = view.getDvdTitle();
+        String title = Util.capitalizeEachWord(view.getDvdTitle());
 
         //find dvd by title
         Map<String, Dvd> dvds = dao.findDvd(title);
@@ -128,29 +129,37 @@ public class DvdLibraryController {
         view.displayEditDvdBanner();
 
         //get dvd title
-        String title = view.getDvdTitle();
+        String title = Util.capitalizeEachWord(view.getDvdTitle());
 
         //find dvd by title
         Map<String, Dvd> dvds = dao.findDvd(title);
 
-        //ask user to select dvd to edit if matching
-        String dvdToUpdate = view.getUserDvdChoice(dvds, title);
+        if (!(dvds.isEmpty())) {
 
-        //display enter new info
-        view.displayEditDvdEnterNewInfo();
+            //ask user to select dvd to edit if matching
+            String dvdToUpdate = view.getUserDvdChoice(dvds, title);
 
-        //get new dvd data
-        Dvd newDvd = view.getnewDvdInfo();
+            //display enter new info
+            view.displayEditDvdEnterNewInfo();
 
-        //make key ~> titleId with title and id
-        String titleId = (newDvd.getTitle() + "-" + newDvd.getId());
+            //get new dvd data
+            Dvd newDvd = view.getnewDvdInfo();
 
-        //add dvd to hashMap key ~> (titleId) value ~> Dvd object
-        dao.updateDvd(newDvd, titleId);
+            //make key ~> titleId with title and id
+            String titleId = (newDvd.getTitle() + "-" + newDvd.getId());
 
-        Dvd deletedDvd = dao.removeDvd(dvdToUpdate);
+            //add dvd to hashMap key ~> (titleId) value ~> Dvd object
+            dao.updateDvd(newDvd, titleId);
 
-        view.displayEditSuccessMessage();
+            Dvd deletedDvd = dao.removeDvd(dvdToUpdate);
+
+            view.displayEditSuccessMessage();
+        } else {
+            //dispay dvd not found
+            view.displayFoundDvd(dvds, title);
+
+        }
+
     }
 
     private void listAllDvds() throws DvdLibraryDaoException {
