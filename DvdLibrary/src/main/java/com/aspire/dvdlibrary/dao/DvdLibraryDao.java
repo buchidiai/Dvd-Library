@@ -7,6 +7,7 @@ package com.aspire.dvdlibrary.dao;
 
 import com.aspire.dvdlibrary.dto.Dvd;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,6 +23,8 @@ public interface DvdLibraryDao {
     Dvd removeDvd(String title) throws DvdLibraryDaoException;
 
     Dvd updateDvd(Dvd dvd, String titleId) throws DvdLibraryDaoException;
+
+    List<Dvd> findDvdByYear(int year) throws DvdLibraryDaoException;
 
     Collection<Dvd> getAllDvd() throws DvdLibraryDaoException;
 

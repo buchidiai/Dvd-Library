@@ -13,8 +13,7 @@ import com.aspire.dvdlibrary.util.Util;
  */
 public class Dvd {
 
-    private int id;
-    private static int idCounter = 100;
+    private String id;
 
     private String title;
     private int releaseDate;
@@ -24,10 +23,14 @@ public class Dvd {
     private String userRating;
 
     public Dvd() {
-        this.id = idCounter++;
+        this.id = Util.UUID();
     }
 
-    public int getId() {
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
 
         return this.id;
     }
@@ -56,7 +59,7 @@ public class Dvd {
 
     public void setMpaaRating(String mpaaRating) {
 
-        if (mpaaRating.isEmpty()) {
+        if (mpaaRating.isEmpty() || mpaaRating.equals("null")) {
 
             mpaaRating = null;
         } else {
@@ -76,7 +79,7 @@ public class Dvd {
 
     public void setDirectorName(String directorName) {
 
-        if (directorName.isEmpty()) {
+        if (directorName.isEmpty() || directorName.equals("null")) {
 
             directorName = null;
         } else {
@@ -91,7 +94,7 @@ public class Dvd {
 
     public void setStudio(String studio) {
 
-        if (studio.isEmpty()) {
+        if (studio.isEmpty() || studio.equals("null")) {
 
             studio = null;
         } else {
@@ -106,7 +109,7 @@ public class Dvd {
 
     public void setUserRating(String userRating) {
 
-        if (userRating.isEmpty()) {
+        if (userRating.isEmpty() || userRating.equals("null")) {
 
             this.userRating = null;
         } else {

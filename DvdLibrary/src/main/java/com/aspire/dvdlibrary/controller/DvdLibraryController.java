@@ -11,6 +11,7 @@ import com.aspire.dvdlibrary.dto.Dvd;
 import com.aspire.dvdlibrary.ui.DvdLibraryView;
 import com.aspire.dvdlibrary.util.Util;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,16 +43,21 @@ public class DvdLibraryController {
                     case 2:
                         findDvdByTitle();
                         break;
+
                     case 3:
+                        findDvdByYear();
+                        break;
+
+                    case 4:
                         editDVD();
                         break;
-                    case 4:
+                    case 5:
                         removeDvd();
                         break;
-                    case 5:
+                    case 6:
                         listAllDvds();
                         break;
-                    case 6:
+                    case 7:
                         keepGoing = false;
                         break;
                     default:
@@ -101,6 +107,20 @@ public class DvdLibraryController {
 
         //dispay dvd if found
         view.displayFoundDvd(dvds, title);
+    }
+
+    private void findDvdByYear() throws DvdLibraryDaoException {
+        //display edit address banner message
+        view.displayFindDvdByYearBanner();
+
+        //get dvd title
+        int year = (view.getDvdYear());
+
+        //find Dvd or dvds by title
+        List<Dvd> dvds = dao.findDvdByYear(year);
+
+        //dispay dvd if found
+        view.displayFoundDvdByYear(dvds, year);
     }
 
     private void removeDvd() throws DvdLibraryDaoException {

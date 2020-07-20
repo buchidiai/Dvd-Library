@@ -5,11 +5,24 @@
  */
 package com.aspire.dvdlibrary.util;
 
+import java.util.UUID;
+
 /**
  *
  * @author louie
  */
 public class Util {
+
+    public static String intToString(int num) {
+
+        return Integer.toString(num);
+    }
+
+    public static String UUID() {
+        final String uuid = UUID.randomUUID().toString().replace("-", "");
+
+        return uuid;
+    }
 
     public static boolean isEmptyString(String str) {
 

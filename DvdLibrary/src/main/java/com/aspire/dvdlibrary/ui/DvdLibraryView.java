@@ -9,6 +9,7 @@ import com.aspire.dvdlibrary.dto.Dvd;
 import com.aspire.dvdlibrary.ui.DvdLibraryView.MpaaValues;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,6 +19,8 @@ import java.util.Map;
 public class DvdLibraryView {
 
     private UserIO io;
+
+    private final int currentYear = Calendar.getInstance().get(Calendar.YEAR);
 
     enum MpaaValues {
         G, PG, PG13, R, NC17, M, X;
@@ -42,17 +45,21 @@ public class DvdLibraryView {
         io.print("Main Menu");
         io.print("1. Add Dvd");
         io.print("2. Find Dvd by Title");
-        io.print("3. Edit Dvd");
-        io.print("4. Remove Dvd");
-        io.print("5. List All Dvds");
-        io.print("6. Exit");
+        io.print("3. Find Dvd by Year");
+        io.print("4. Edit Dvd");
+        io.print("5. Remove Dvd");
+        io.print("6. List All Dvds");
+        io.print("7. Exit");
 
-        return io.readInt("Please select from the above choices.", 1, 6);
+        return io.readInt("Please select from the above choices.", 1, 7);
+    }
+
+    public int getDvdYear() {
+
+        return io.readInt("Please Enter Dvd relase date: ", 1888, currentYear);
     }
 
     public Dvd getnewDvdInfo() {
-
-        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
 
         boolean validRating = false;
         boolean validTitle = false;
@@ -181,6 +188,44 @@ public class DvdLibraryView {
 
     }
 
+    public void displayFoundDvdByYear(List<Dvd> dvds, int year) {
+
+        int listSize = dvds.size();
+
+        displayMatchingDvdsByYear(year);
+        if (!(dvds.isEmpty())) {
+
+            viewDvdInfoByYear(dvds, listSize);
+        } else {
+            io.print("No such Dvd found.");
+
+            io.readString("Press Enter to go to Main Menu.");
+        }
+
+    }
+
+    public void viewDvdInfoByYear(List<Dvd> dvds, int collectionSize) {
+        int index = 1;
+
+        String amountMovies = "";
+
+        io.print("");
+
+        for (Dvd d : dvds) {
+            displayDvdIndex(index);
+            displayCurrentDvd(d);
+            io.print("");
+            index++;
+        }
+        amountMovies = index == 1 ? " movie" : " movies";
+
+        io.print(collectionSize + amountMovies + " found.");
+
+        io.readString("Press Enter to go to Main Menu.");
+
+        index = 1;
+    }
+
     public void viewDvdInfo(Map<String, Dvd> dvds, int collectionSize) {
         int index = 1;
 
@@ -262,6 +307,10 @@ public class DvdLibraryView {
         io.print("=== Search Results for " + dvdTitle + " ===");
     }
 
+    public void displayMatchingDvdsByYear(int dvdYear) {
+        io.print("=== Search Results for Dvd's in " + dvdYear + " ===");
+    }
+
     public void displayAddDvdBanner() {
         io.print("=== Add a Dvd ===");
     }
@@ -284,6 +333,10 @@ public class DvdLibraryView {
 
     public void displayFindDvdBanner() {
         io.print("=== Find a Dvd by title ===");
+    }
+
+    public void displayFindDvdByYearBanner() {
+        io.print("=== Find a Dvd by Year ===");
     }
 
     public void displayEditSuccessMessage() {
