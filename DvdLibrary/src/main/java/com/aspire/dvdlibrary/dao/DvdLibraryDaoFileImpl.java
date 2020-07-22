@@ -15,6 +15,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -27,8 +28,16 @@ public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
 
     private Map<String, Dvd> dvdCollection = new HashMap<String, Dvd>();
 
-    public static final String ROSTER_FILE = "dvdcollection.txt";
+    public final String ROSTER_FILE;
     public static final String DELIMITER = "::";
+
+    public DvdLibraryDaoFileImpl() {
+        ROSTER_FILE = "dvdcollection.txt";
+    }
+
+    public DvdLibraryDaoFileImpl(String testFile) {
+        ROSTER_FILE = testFile;
+    }
 
     @Override
     public Dvd addDvd(Dvd dvd, String key) throws DvdLibraryDaoException {
@@ -65,7 +74,7 @@ public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
 
         if (removedDvd != null) {
 
-            writeRoster();
+//            writeRoster();
         }
 
         //remove by key of value
@@ -98,7 +107,7 @@ public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
 
     @Override
     public Collection<Dvd> getAllDvd() throws DvdLibraryDaoException {
-        loadRoster(); //return all values
+//        loadRoster(); //return all values
         return dvdCollection.values();
     }
 
@@ -111,19 +120,19 @@ public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
         //not good practice
         dvdFromFile.setId(dvdTokens[0]);
 
-        // Index 1 - FirstName
+        // Index 1 - title
         dvdFromFile.setTitle(dvdTokens[1]);
 
-        // Index 2 - LastName
+        // Index 2 - release
         dvdFromFile.setReleaseDate(Integer.parseInt(dvdTokens[2]));
-//
-//        // Index 3 - dvd
+
+        // Index 3 - dvd
         dvdFromFile.setMpaaRating(dvdTokens[3]);
-//        // Index 4 - city
+        // Index 4 - city
         dvdFromFile.setDirectorName(dvdTokens[4]);
-//        // Index 5 - state
+        // Index 5 - state
         dvdFromFile.setStudio(dvdTokens[5]);
-//        // Index 6 - zip
+        // Index 6 - zip
         dvdFromFile.setUserRating(dvdTokens[6]);
         // We have now created a dvd! Return it!
         return dvdFromFile;
@@ -131,7 +140,6 @@ public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
 
     private void loadRoster() throws DvdLibraryDaoException {
 
-        System.out.println("read from file");
         Scanner scanner;
 
         try {
@@ -150,33 +158,35 @@ public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
         // Go through ROSTER_FILE line by line, decoding each line into a
         // Dvd object by calling the unmarshallDvd method.
         // Process while we have more lines in the file
+
+        // Creating an object of Iterator
+        Iterator<String> iterate = dvdCollection.keySet().iterator();
         while (scanner.hasNextLine()) {
             // get the next line in the file
             currentLine = scanner.nextLine();
             // unmarshall the line into a Dvd
             currentDvd = unmarshallDvd(currentLine);
 
-//            //check data in file is not already in hashmap
-//            if (!(dvdCollection.isEmpty())) {
-//
-//                System.out.println("not empty = check for duplicates");
-//
-//                for (String key : dvdCollection.keySet()) {
-//
-//                    if (key.matches("(.*)" + currentLine.split(DELIMITER)[0] + "(.*)")) {
-//                        System.out.println("already exits");
-//                    } else {
-//                        dvdCollection.put(currentDvd.getId(), currentDvd);
-//
-//                        System.out.println("doesnt exit");
-//                    }
-//                    //"main" java.util.ConcurrentModificationException
-//                }
-//            } else {
-//                System.out.println("empty = add some stuff");
-//                dvdCollection.put(currentDvd.getId(), currentDvd);
-//            }
-            dvdCollection.put(currentDvd.getId(), currentDvd);
+            // check data in file is not already in hashmap
+            while (iterate.hasNext()) {
+
+                if (!(dvdCollection.isEmpty())) {
+
+                    System.out.println("collection not empty = check for duplicates");
+
+                    if (!(iterate.next().matches("(.*)" + currentLine.split(DELIMITER)[0] + "(.*)"))) {
+                        System.out.println("doesnt exist in dvd collection - so add from file ");
+                        dvdCollection.put(currentDvd.getId(), currentDvd);
+
+                    }
+                    //"main" java.util.ConcurrentModificationException
+                } else {
+
+                    System.out.println("collection empty = add some stuff");
+                    dvdCollection.put(currentDvd.getId(), currentDvd);
+                }
+            }
+//            dvdCollection.put(currentDvd.getId(), currentDvd);
         }
 
         // close scanner
@@ -215,7 +225,7 @@ public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
      */
     private void writeRoster() throws DvdLibraryDaoException {
 
-        System.out.println("wrote to file roster");
+//        System.out.println("wrote to file roster");
         // NOTE FOR APPRENTICES: We are not handling the IOException - but
         // we are translating it to an application specific exception and
         // then simple throwing it (i.e. 'reporting' it) to the code that
