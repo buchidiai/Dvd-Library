@@ -7,6 +7,7 @@ package com.aspire.dvdlibrary.ui;
 
 import com.aspire.dvdlibrary.dto.Dvd;
 import com.aspire.dvdlibrary.ui.DvdLibraryView.MpaaValues;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
@@ -59,6 +60,52 @@ public class DvdLibraryView {
         return io.readInt("Please Enter Dvd relase date: ", 1888, currentYear);
     }
 
+    public String getFormatedDvdYear() {
+
+        String formattedRelease = "";
+
+        String[] results = new String[3];
+
+        boolean isValidDates = true;
+        int month = 0;
+        int day = 0;
+        int year = 0;
+
+        String realseYear = io.readString("Please Enter Dvd relase date: (01-01-2002) (m-d-y)");
+
+        if (realseYear.contains("-")) {
+            results = realseYear.split("-");
+        } else if (realseYear.contains("/")) {
+            results = realseYear.split("/");
+        }
+
+        if (results.length == 3) {
+
+            while (isValidDates) {
+
+                try {
+                    month = Integer.parseInt(results[0]);
+                    day = Integer.parseInt(results[1]);
+                    year = Integer.parseInt(results[2]);
+                    isValidDates = false;
+
+                } catch (NumberFormatException e) {
+
+                    System.out.println("Must be a valid date");
+
+                } catch (NullPointerException e) {
+                    System.out.println("Must be a valid date");
+
+                }
+                isValidDates = false;
+            }
+
+            LocalDate ld = LocalDate.of(year, month, day);
+            formattedRelease = ld.getDayOfWeek() + ", " + ld.getMonth() + " " + ld.getDayOfMonth() + ", " + ld.getYear();
+        }
+        return formattedRelease;
+    }
+
     public Dvd getnewDvdInfo() {
 
         boolean validRating = false;
@@ -79,7 +126,8 @@ public class DvdLibraryView {
         }
 
         //validate date
-        int releaseDate = io.readInt("Please Enter Dvd relase date: ", 1888, currentYear);
+//        int releaseDate = io.readInt("Please Enter Dvd relase date: ", 1888, currentYear);
+        String releaseDate = getFormatedDvdYear();
 
         //make sure user puts a valid rating
         while (!validRating) {

@@ -96,10 +96,10 @@ public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
 
         //loop through collection and check if it ends with or starts with value
         for (Map.Entry<String, Dvd> e : dvdCollection.entrySet()) {
-            if (e.getValue().getReleaseDate() == key) {
-
-                dvdsByYear.add(e.getValue());
-            }
+//            if (e.getValue().getReleaseDate() == key) {
+//
+//                dvdsByYear.add(e.getValue());
+//            }
         }
         //return hashMap
         return dvdsByYear;
@@ -124,7 +124,7 @@ public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
         dvdFromFile.setTitle(dvdTokens[1]);
 
         // Index 2 - release
-        dvdFromFile.setReleaseDate(Integer.parseInt(dvdTokens[2]));
+        dvdFromFile.setReleaseDate("1900");
 
         // Index 3 - dvd
         dvdFromFile.setMpaaRating(dvdTokens[3]);

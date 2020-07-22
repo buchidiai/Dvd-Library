@@ -16,7 +16,7 @@ public class Dvd {
     private String id;
 
     private String title;
-    private int releaseDate;
+    private String releaseDate;
     private String mpaaRating;
     private String directorName;
     private String studio;
@@ -44,11 +44,11 @@ public class Dvd {
         this.title = Util.capitalizeEachWord(title);
     }
 
-    public int getReleaseDate() {
+    public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(int releaseDate) {
+    public void setReleaseDate(String releaseDate) {
 
         this.releaseDate = releaseDate;
     }

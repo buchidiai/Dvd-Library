@@ -44,7 +44,7 @@ public class DvdLibraryDaoFileImplTest {
 
         String title = "Lion King";
         String MpaaRating = "G";
-        int releaseDate = 1987;
+        String releaseDate = "1987";
         String DirectorName = "Peter Johnson";
         String Studio = "Pixar";
         String userRating = "Awesome movie i cried";
@@ -101,7 +101,7 @@ public class DvdLibraryDaoFileImplTest {
         // Create our first dvd
         String title = "Dance like a wolf";
         String MpaaRating = "PG";
-        int releaseDate = 2000;
+        String releaseDate = "2000";
         String DirectorName = "Mike Smith";
         String Studio = "Evolve";
         String userRating = "Nice";
@@ -121,7 +121,7 @@ public class DvdLibraryDaoFileImplTest {
         // Create our second dvd
         String title1 = "Life is good";
         String MpaaRating1 = "R";
-        int releaseDate1 = 2020;
+        String releaseDate1 = "2020";
         String DirectorName1 = "Jaden Smith";
         String Studio1 = "kwilth";
         String userRating1 = "Nice like really";
@@ -163,7 +163,7 @@ public class DvdLibraryDaoFileImplTest {
         // Create our first dvd
         String title = "Dance like a wolf";
         String MpaaRating = "PG";
-        int releaseDate = 2000;
+        String releaseDate = "2001";
         String DirectorName = "Mike Smith";
         String Studio = "Evolve";
         String userRating = "Nice";
@@ -183,7 +183,7 @@ public class DvdLibraryDaoFileImplTest {
         // Create our second dvd
         String title1 = "Life is good";
         String MpaaRating1 = "R";
-        int releaseDate1 = 2020;
+        String releaseDate1 = "2021";
         String DirectorName1 = "Jaden Smith";
         String Studio1 = "kwilth";
         String userRating1 = "Nice like really";
