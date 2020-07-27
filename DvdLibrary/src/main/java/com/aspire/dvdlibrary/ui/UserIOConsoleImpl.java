@@ -6,11 +6,13 @@
 package com.aspire.dvdlibrary.ui;
 
 import java.util.Scanner;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author louie
  */
+@Component
 public class UserIOConsoleImpl implements UserIO {
 
     final private Scanner in = new Scanner(System.in);
@@ -21,10 +23,6 @@ public class UserIOConsoleImpl implements UserIO {
         System.out.println(message);
     }
 
-//    @Override
-//    public void print(Class message) {
-//        System.out.println(message);
-//    }
     @Override
     public String readString(String prompt) {
 

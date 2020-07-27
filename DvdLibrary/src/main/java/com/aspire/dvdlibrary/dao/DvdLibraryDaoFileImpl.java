@@ -19,11 +19,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author louie
  */
+@Component
 public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
 
     private Map<String, Dvd> dvdCollection = new HashMap<String, Dvd>();

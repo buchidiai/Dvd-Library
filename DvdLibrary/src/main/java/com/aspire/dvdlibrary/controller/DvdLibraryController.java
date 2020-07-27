@@ -13,16 +13,20 @@ import com.aspire.dvdlibrary.util.Util;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author louie
  */
+@Component
 public class DvdLibraryController {
 
     private DvdLibraryView view;
     private DvdLibraryDao dao;
 
+    @Autowired
     public DvdLibraryController(DvdLibraryView view, DvdLibraryDao dao) {
         this.view = view;
         this.dao = dao;
